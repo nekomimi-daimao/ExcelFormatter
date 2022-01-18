@@ -110,11 +110,16 @@ void Format(FileSystemInfo info)
 {
     using var book = new XLWorkbook(info.FullName);
     book.Author = null;
-    foreach (var worksheet in book.Worksheets)
+    var bookWorksheets = book.Worksheets.ToArray();
+    for (var index = 0; index < bookWorksheets.Length; index++)
     {
+        var worksheet = bookWorksheets[index];
         worksheet.Author = null;
-        worksheet.Cell(1, 1).SetActive();
+        worksheet.Cell("A1").SetActive();
         worksheet.SheetView.ZoomScale = 100;
+        worksheet.SetTabActive(index == 0);
+        worksheet.SetTabSelected(index == 0);
     }
+
     book.Save();
 }
