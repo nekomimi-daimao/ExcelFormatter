@@ -12,7 +12,24 @@ Console.OutputEncoding = Encoding.UTF8;
 var argPath = args.FirstOrDefault();
 if (string.IsNullOrEmpty(argPath))
 {
-    Console.WriteLine("enter excel file or directory");
+    var usage = new[]
+    {
+        "Usage",
+        "dotnet run /your/file/or/directory",
+        string.Empty,
+        "mac/linux",
+        "./ExcelFormatter /your/file/or/directory",
+        string.Empty,
+        "win",
+        "ExcelFormatter.exe /your/file/or/directory",
+        string.Empty,
+    };
+
+    foreach (var s in usage)
+    {
+        Console.WriteLine(s);
+    }
+
     return;
 }
 
