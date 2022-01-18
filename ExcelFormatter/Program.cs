@@ -26,14 +26,17 @@ if (fileCount == 0)
 }
 
 using var spinnerTotal = new Spinner($"{argPath}");
+spinnerTotal.Start();
+
 var failed = new List<FileInfo>();
 
 for (var count = 0; count < excelFiles.Length; count++)
 {
-    spinnerTotal.Text = $"{argPath} {count} / {fileCount}";
+    spinnerTotal.Text = $"{count} / {fileCount}";
 
     var file = excelFiles[count];
     using var spinner = new Spinner(file.Name, Patterns.Arc);
+    spinner.Start();
     try
     {
         Format(file);
@@ -41,6 +44,7 @@ for (var count = 0; count < excelFiles.Length; count++)
     }
     catch (Exception e)
     {
+        Console.WriteLine(e);
         spinner.Fail(e?.Message);
         failed.Add(file);
     }
@@ -48,7 +52,7 @@ for (var count = 0; count < excelFiles.Length; count++)
 
 if (failed.Count == 0)
 {
-    spinnerTotal.Succeed();
+    spinnerTotal.Succeed($"{fileCount} / {fileCount}");
 }
 else
 {
